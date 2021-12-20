@@ -39,7 +39,9 @@ namespace WindowsFormsApp1
             this.label4 = new System.Windows.Forms.Label();
             this.login = new System.Windows.Forms.TextBox();
             this.password = new System.Windows.Forms.TextBox();
-            this.bOf = new System.Windows.Forms.Button();
+            this.bPos = new System.Windows.Forms.Button();
+            this.bCli = new System.Windows.Forms.Button();
+            this.bBuh = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // bLogOut
@@ -78,7 +80,7 @@ namespace WindowsFormsApp1
             // bSk
             // 
             this.bSk.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.bSk.Location = new System.Drawing.Point(21, 228);
+            this.bSk.Location = new System.Drawing.Point(21, 141);
             this.bSk.Name = "bSk";
             this.bSk.Size = new System.Drawing.Size(246, 67);
             this.bSk.TabIndex = 3;
@@ -151,24 +153,50 @@ namespace WindowsFormsApp1
             this.password.Size = new System.Drawing.Size(350, 55);
             this.password.TabIndex = 9;
             // 
-            // bOf
+            // bPos
             // 
-            this.bOf.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.bOf.Location = new System.Drawing.Point(21, 404);
-            this.bOf.Name = "bOf";
-            this.bOf.Size = new System.Drawing.Size(246, 67);
-            this.bOf.TabIndex = 10;
-            this.bOf.Text = "Офисы";
-            this.bOf.UseVisualStyleBackColor = true;
-            this.bOf.Visible = false;
-            this.bOf.Click += new System.EventHandler(this.toOF);
+            this.bPos.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.bPos.Location = new System.Drawing.Point(21, 404);
+            this.bPos.Name = "bPos";
+            this.bPos.Size = new System.Drawing.Size(246, 67);
+            this.bPos.TabIndex = 10;
+            this.bPos.Text = "Должности";
+            this.bPos.UseVisualStyleBackColor = true;
+            this.bPos.Visible = false;
+            this.bPos.Click += new System.EventHandler(this.toPos);
+            // 
+            // bCli
+            // 
+            this.bCli.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.bCli.Location = new System.Drawing.Point(21, 228);
+            this.bCli.Name = "bCli";
+            this.bCli.Size = new System.Drawing.Size(246, 67);
+            this.bCli.TabIndex = 11;
+            this.bCli.Text = "Клиенты";
+            this.bCli.UseVisualStyleBackColor = true;
+            this.bCli.Visible = false;
+            this.bCli.Click += new System.EventHandler(this.bCli_Click);
+            // 
+            // bBuh
+            // 
+            this.bBuh.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.bBuh.Location = new System.Drawing.Point(21, 490);
+            this.bBuh.Name = "bBuh";
+            this.bBuh.Size = new System.Drawing.Size(246, 67);
+            this.bBuh.TabIndex = 12;
+            this.bBuh.Text = "Бухгалтерия";
+            this.bBuh.UseVisualStyleBackColor = true;
+            this.bBuh.Visible = false;
+            this.bBuh.Click += new System.EventHandler(this.bBuh_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1332, 673);
-            this.Controls.Add(this.bOf);
+            this.Controls.Add(this.bBuh);
+            this.Controls.Add(this.bCli);
+            this.Controls.Add(this.bPos);
             this.Controls.Add(this.password);
             this.Controls.Add(this.login);
             this.Controls.Add(this.label4);
@@ -184,6 +212,7 @@ namespace WindowsFormsApp1
             this.MinimumSize = new System.Drawing.Size(1350, 720);
             this.Name = "Form1";
             this.ShowIcon = false;
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -201,7 +230,9 @@ namespace WindowsFormsApp1
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox login;
         private System.Windows.Forms.TextBox password;
-        private System.Windows.Forms.Button bOf;
+        private System.Windows.Forms.Button bPos;
+        private System.Windows.Forms.Button bCli;
+        private System.Windows.Forms.Button bBuh;
     }
 }
 

@@ -9,67 +9,96 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using System.Net.Http;
+using System.Security.Cryptography;
 
 namespace WindowsFormsApp1
 {
     public partial class Reg : Form
     {
+        int ID;
         string Doljn = " ";
-        public Reg(string dj)
+        public Reg(string dj, int id)
         {
             InitializeComponent();
             Ac.Text = dj;
             Doljn = dj;
+            ID = id;
         }
-        
-        SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-FCATBGV\PCC;Initial Catalog=VideoAr;Integrated Security=True");
-        SqlDataAdapter da;
-        SqlCommand cmd;
-        DataSet ds;
 
-        private void Reg_Load(object sender, EventArgs e)
+        public static string url = "http://localhost:8080/api/rabotniks";
+        private async void Reg_Load(object sender, EventArgs e)
         {
-            // TODO: данная строка кода позволяет загрузить данные в таблицу "videoArDataSet.Office". При необходимости она может быть перемещена или удалена.
-            this.officeTableAdapter.Fill(this.videoArDataSet.Office);
+            string respuesta = await Web.GetHttp("http://localhost:8080/api/positions");
+            List <Positionn> lst = JsonConvert.DeserializeObject<List<Positionn>>(respuesta.Replace(@"\", ""));
+            comboBox1.Items.Insert(0, "");
+            foreach (Positionn positionn in lst)
+            {
+                comboBox1.Items.Insert(positionn.ID, positionn.Должность.ToString());
+            }
+
+            if (ID == 0)
+                bReg.Text = "Подтвердить регистрацию";
+            else
+            {
+                bReg.Text = "Обновить";
+                string respuesta2 = await Web.GetHttp("http://localhost:8080/api/rabotnik/" + ID);
+                List<Rabotnikk> list = JsonConvert.DeserializeObject<List<Rabotnikk>>(respuesta2.Replace(@"\", ""));
+                Name.Text = list[0].Name_Rabotnik;
+                LastName.Text = list[0].Last_Name_Rabotnik;
+                MidlleName.Text = list[0].Midlle_Name_Rabotnik;
+                PNumber.Text = list[0].Nomber_Phone;
+                SP.Text = list[0].Series.ToString();
+                NP.Text = list[0].Nomber_P.ToString();
+                Login.Text = list[0].Login;
+                Password.Text = Web.UnHash(list[0].Password);
+                comboBox1.SelectedIndex = list[0].Position_FK;
+                if (list[0].Dismissed == true)
+                    Diss.Checked = true;
+                else
+                    Diss.Checked = false;
+            }
         }
 
         private void Add_Click(object sender, EventArgs e)
         {
+            //Name.Text = Web.Hash(MidlleName.Text);
+            //LastName.Text = Web.UnHash(Name.Text);
+            bool t;
+            if (Diss.Checked == true)
+                t = true;
+            else
+                t = false;
+
             try
             {
-                if (RBK.Checked)
+                Rabotnikk rabotnikk = new Rabotnikk()
                 {
-                    cmd = new SqlCommand();
-                    con.Open();
-                    cmd.Connection = con;
-                    cmd.CommandText = String.Format("insert into Client(Name_Client, Last_Name_Client, Midlle_Name_Client, Series, Number_P, Nomber_Phone, Date, Adres, issued_by, max_sum)" +
-                                                    " values('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '1000')",
-                                                    Name.Text, LastName.Text, MidlleName.Text, SP.Text, NP.Text, PNumber.Text, dateTimePicker2.Value.ToShortDateString(), Adres.Text, Vidan.Text);
-                    cmd.ExecuteNonQuery();
-                    con.Close();
-                    MessageBox.Show("Клиент зарегистрирован");
-                    Bde();
-                }
+                    Name_Rabotnik = Name.Text,
+                    Last_Name_Rabotnik = LastName.Text,
+                    Midlle_Name_Rabotnik = MidlleName.Text,
+                    Series = Convert.ToInt32(SP.Text),
+                    Nomber_P = Convert.ToInt32(NP.Text),
+                    Nomber_Phone = PNumber.Text,
+                    Position_FK = comboBox1.SelectedIndex,
+                    Login = Login.Text,
+                    Password = Web.Hash(Password.Text),
+                    Dismissed = t
+                };
+                var r = JsonConvert.SerializeObject(rabotnikk);
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(url);
+                if (ID == 0)
+                { HttpResponseMessage response = client.PostAsJsonAsync("/api/rabotnik", rabotnikk).Result;}
                 else
-                {
-                    int Dolj = 5;
-                    if (RBAdmin.Checked) { Dolj = 0; }
-                    if (RBKad.Checked) { Dolj = 1; }
-                    if (RBKas.Checked) { Dolj = 2; }
-
-                    cmd = new SqlCommand();
-                    con.Open();
-                    cmd.Connection = con;
-                    cmd.CommandText = String.Format("insert into Rabotnik(Name_Rabotnik, Last_Name_Rabotnik, Midlle_Name_Rabotnik, Doljnost, Nomber_Phone, Login, Password, Office_ID)" +
-                                                    " values('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')",
-                                                    Name.Text, LastName.Text, MidlleName.Text, Dolj, PNumber.Text, Login.Text, Password.Text, comboBox2.SelectedValue.ToString());
-                    cmd.ExecuteNonQuery();
-                    con.Close();
-                    MessageBox.Show("Работник зарегистрирован");
-                    Bde();
-                }
+                { HttpResponseMessage response = client.PutAsJsonAsync(String.Format("/api/rabotnik/{0}", ID.ToString()), rabotnikk).Result; }
+                Bde();
             }
-            catch { MessageBox.Show("Правильно введите данные"); }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         public void Bde()
@@ -82,22 +111,6 @@ namespace WindowsFormsApp1
         private void Back_Click(object sender, EventArgs e)
         {
             Bde();
-        }
-
-        private void Kl_Click(object sender, EventArgs e)
-        {
-            LaP.Visible = false;
-            Passport.Visible = true;
-            label12.Visible = false;
-            comboBox2.Visible = false;
-        }
-
-        private void J_Click(object sender, EventArgs e)
-        {
-            LaP.Visible = true;
-            Passport.Visible = false;
-            label12.Visible = true;
-            comboBox2.Visible = true;
         }
 
         private void LogOut_Click(object sender, EventArgs e)

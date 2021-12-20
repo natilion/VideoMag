@@ -32,8 +32,6 @@ namespace WindowsFormsApp1
             this.Back = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.bDel = new System.Windows.Forms.Button();
-            this.id = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -69,33 +67,11 @@ namespace WindowsFormsApp1
             this.bDel.UseVisualStyleBackColor = true;
             this.bDel.Click += new System.EventHandler(this.Del_Click);
             // 
-            // id
-            // 
-            this.id.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.id.Location = new System.Drawing.Point(333, 25);
-            this.id.Name = "id";
-            this.id.Size = new System.Drawing.Size(242, 38);
-            this.id.TabIndex = 52;
-            this.id.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.id_KeyPress);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Bahnschrift", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label12.ForeColor = System.Drawing.Color.Black;
-            this.label12.Location = new System.Drawing.Point(290, 25);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(37, 34);
-            this.label12.TabIndex = 51;
-            this.label12.Text = "id";
-            // 
             // TChek
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(782, 453);
-            this.Controls.Add(this.id);
-            this.Controls.Add(this.label12);
             this.Controls.Add(this.bDel);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.Back);
@@ -105,7 +81,6 @@ namespace WindowsFormsApp1
             this.Load += new System.EventHandler(this.TChek_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -114,7 +89,5 @@ namespace WindowsFormsApp1
         private System.Windows.Forms.Button Back;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button bDel;
-        private System.Windows.Forms.TextBox id;
-        private System.Windows.Forms.Label label12;
     }
 }

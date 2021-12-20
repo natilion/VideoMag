@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace WindowsFormsApp1
 {
@@ -18,20 +20,21 @@ namespace WindowsFormsApp1
             InitializeComponent();
         }
 
-        SqlConnection con;
-        SqlDataAdapter da;
-        SqlCommand cmd;
-        DataSet ds;
+        public static string url = "http://localhost:8080/api/cheks";
 
-        void GetList()
+        public class Chek
         {
-            con = new SqlConnection(@"Data Source=DESKTOP-FCATBGV\PCC;Initial Catalog=VideoAr;Integrated Security=True");
-            da = new SqlDataAdapter("select * from Chek", con);
-            ds = new DataSet();
-            con.Open();
-            da.Fill(ds, "Chek");
-            dataGridView1.DataSource = ds.Tables["Chek"];
-            con.Close();
+            public int ID { get; set; }
+            public string Сотрудник { get; set; }
+            public string Покупатель { get; set; }
+            public string Товар { get; set; }
+        }
+
+        async void GetList()
+        {
+            string respuesta = await Web.GetHttp(url);
+            List<Chek> lst = JsonConvert.DeserializeObject<List<Chek>>(respuesta.Replace(@"\", ""));
+            dataGridView1.DataSource = lst;
         }
 
         private void TChek_Load(object sender, EventArgs e)
@@ -41,32 +44,19 @@ namespace WindowsFormsApp1
 
         private void Del_Click(object sender, EventArgs e)
         {
-            try
+            foreach (DataGridViewCell cell in dataGridView1.SelectedCells)
             {
-                cmd = new SqlCommand();
-                con.Open();
-                cmd.Connection = con;
-                cmd.CommandText = String.Format("delete from Chek where ID_Chek='{0}'", id.Text);
-                cmd.ExecuteNonQuery();
-                con.Close();
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri(url);
+                HttpResponseMessage response = client.DeleteAsync(String.Format("/api/chek/{0}", cell.Value.ToString())).Result;
                 GetList();
             }
-            catch { MessageBox.Show("Ошибка"); }
             MessageBox.Show("Данные удалены");
         }
 
         private void Back_Click(object sender, EventArgs e)
         {
             Close();
-        }
-
-        private void id_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            char number = e.KeyChar;
-            if (!Char.IsDigit(number) && number != 8)
-            {
-                e.Handled = true;
-            }
         }
     }
 }
