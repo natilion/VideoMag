@@ -32,6 +32,7 @@ namespace WindowsFormsApp1
             this.amount = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.Diss = new System.Windows.Forms.CheckBox();
             this.genre = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.name_proiz = new System.Windows.Forms.TextBox();
@@ -50,7 +51,6 @@ namespace WindowsFormsApp1
             this.label9 = new System.Windows.Forms.Label();
             this.bAdd = new System.Windows.Forms.Button();
             this.Back = new System.Windows.Forms.Button();
-            this.Diss = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -99,6 +99,18 @@ namespace WindowsFormsApp1
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(909, 310);
             this.panel1.TabIndex = 57;
+            // 
+            // Diss
+            // 
+            this.Diss.AutoSize = true;
+            this.Diss.Font = new System.Drawing.Font("Bahnschrift", 16.2F);
+            this.Diss.Location = new System.Drawing.Point(293, 234);
+            this.Diss.Name = "Diss";
+            this.Diss.Size = new System.Drawing.Size(134, 38);
+            this.Diss.TabIndex = 60;
+            this.Diss.Text = "Удален";
+            this.Diss.UseVisualStyleBackColor = true;
+            this.Diss.Visible = false;
             // 
             // genre
             // 
@@ -373,18 +385,6 @@ namespace WindowsFormsApp1
             this.Back.UseVisualStyleBackColor = true;
             this.Back.Click += new System.EventHandler(this.Back_Click);
             // 
-            // Diss
-            // 
-            this.Diss.AutoSize = true;
-            this.Diss.Font = new System.Drawing.Font("Bahnschrift", 16.2F);
-            this.Diss.Location = new System.Drawing.Point(293, 234);
-            this.Diss.Name = "Diss";
-            this.Diss.Size = new System.Drawing.Size(134, 38);
-            this.Diss.TabIndex = 60;
-            this.Diss.Text = "Удален";
-            this.Diss.UseVisualStyleBackColor = true;
-            this.Diss.Visible = false;
-            // 
             // SkladAdd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -394,7 +394,6 @@ namespace WindowsFormsApp1
             this.Controls.Add(this.bAdd);
             this.Controls.Add(this.panel1);
             this.Name = "SkladAdd";
-            this.Text = "SkladAdd";
             this.Load += new System.EventHandler(this.SkladAdd_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

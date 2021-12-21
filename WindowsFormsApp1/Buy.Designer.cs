@@ -86,7 +86,6 @@ namespace WindowsFormsApp1
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.bBuy);
             this.Name = "Buy";
-            this.Text = "Buy";
             this.Load += new System.EventHandler(this.Buy_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);

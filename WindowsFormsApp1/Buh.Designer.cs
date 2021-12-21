@@ -53,6 +53,7 @@ namespace WindowsFormsApp1
             this.bDel.TabIndex = 63;
             this.bDel.Text = "Удалить";
             this.bDel.UseVisualStyleBackColor = true;
+            this.bDel.Visible = false;
             this.bDel.Click += new System.EventHandler(this.bDel_Click);
             // 
             // bUp

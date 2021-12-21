@@ -65,6 +65,7 @@ namespace WindowsFormsApp1
             this.bDel.TabIndex = 41;
             this.bDel.Text = "Удалить";
             this.bDel.UseVisualStyleBackColor = true;
+            this.bDel.Visible = false;
             this.bDel.Click += new System.EventHandler(this.Del_Click);
             // 
             // TChek
@@ -77,7 +78,6 @@ namespace WindowsFormsApp1
             this.Controls.Add(this.Back);
             this.MinimumSize = new System.Drawing.Size(800, 500);
             this.Name = "TChek";
-            this.Text = "TChek";
             this.Load += new System.EventHandler(this.TChek_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);

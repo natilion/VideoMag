@@ -63,8 +63,6 @@ namespace WindowsFormsApp1
 
         private void Add_Click(object sender, EventArgs e)
         {
-            //Name.Text = Web.Hash(MidlleName.Text);
-            //LastName.Text = Web.UnHash(Name.Text);
             bool t;
             if (Diss.Checked == true)
                 t = true;

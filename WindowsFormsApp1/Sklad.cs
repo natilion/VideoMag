@@ -1,21 +1,10 @@
-﻿using System;
-using System.Data.SqlClient;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Text.RegularExpressions;
 using System.Net.Http;
-using System.Net.Http.Formatting;
-using System.Net;
-using System.IO;
-using Newtonsoft.Json;
-using static WindowsFormsApp1.Web;
+using System.Text.RegularExpressions;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace WindowsFormsApp1
 {
@@ -91,15 +80,26 @@ namespace WindowsFormsApp1
             }
         }
 
-        private void Del_Click(object sender, EventArgs e)
+        private async void Del_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewCell cell in dataGridView1.SelectedCells)
             {
+                string respuesta = await Web.GetHttp("http://localhost:8080/api/tovar/" + cell.Value.ToString());
+                List<Tovarr> lst = JsonConvert.DeserializeObject<List<Tovarr>>(respuesta.Replace(@"\", ""));
+                lst[0].delete = true;
+                var r = JsonConvert.SerializeObject(lst);
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(url);
-                HttpResponseMessage response = client.DeleteAsync(String.Format("/api/tovar/{0}", cell.Value.ToString())).Result;
-                GetList();
+
+                HttpResponseMessage response = client.PutAsJsonAsync(String.Format("/api/tovar/{0}", cell.Value.ToString()), lst).Result;
             }
+            //foreach (DataGridViewCell cell in dataGridView1.SelectedCells)
+            //{
+            //    HttpClient client = new HttpClient();
+            //    client.BaseAddress = new Uri(url);
+            //    HttpResponseMessage response = client.DeleteAsync(String.Format("/api/tovar/{0}", cell.Value.ToString())).Result;
+            //    GetList();
+            //}
             MessageBox.Show("Данные удалены");
         }
 
@@ -111,10 +111,6 @@ namespace WindowsFormsApp1
 
         private async void bBuy_Click_1(object sender, EventArgs e)
         {
-            //string r = dataGridView1[0, dataGridView1.SelectedRows[0] /*.Cells[0].Value*/].Value.ToString();
-            //dataGridView1.Rows.Count - 2;
-            //MessageBox.Show(r.ToString());
-            //if (dataGridView1.Rows.GetLastRow == 0)
             foreach (DataGridViewCell cell in dataGridView1.SelectedCells)
             {
                 string respuesta = await Web.GetHttp("http://localhost:8080/api/tovar/" + cell.Value.ToString());
@@ -126,7 +122,6 @@ namespace WindowsFormsApp1
                     Buy buy = new Buy(rid, Convert.ToInt32(cell.Value));
                     buy.Show();
                 }
-                
             }
         }
 

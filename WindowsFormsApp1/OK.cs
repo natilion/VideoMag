@@ -55,15 +55,27 @@ namespace WindowsFormsApp1
             }
         }
 
-        private void Del_Click(object sender, EventArgs e)
+        private async void Del_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewCell cell in dataGridView1.SelectedCells)
             {
+                string respuesta = await Web.GetHttp("http://localhost:8080/api/rabotnik/" + cell.Value.ToString());
+                List<Rabotnikk> lst = JsonConvert.DeserializeObject<List<Rabotnikk>>(respuesta.Replace(@"\", ""));
+                lst[0].Dismissed = true;
+                var r = JsonConvert.SerializeObject(lst);
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(url);
-                HttpResponseMessage response = client.DeleteAsync(String.Format("/api/rabotnik/{0}", cell.Value.ToString())).Result;
-                GetList();
+
+                HttpResponseMessage response = client.PutAsJsonAsync(String.Format("/api/rabotnik/{0}", cell.Value.ToString()), lst).Result;
             }
+
+            //foreach (DataGridViewCell cell in dataGridView1.SelectedCells)
+            //{
+            //    HttpClient client = new HttpClient();
+            //    client.BaseAddress = new Uri(url);
+            //    HttpResponseMessage response = client.DeleteAsync(String.Format("/api/rabotnik/{0}", cell.Value.ToString())).Result;
+            //    GetList();
+            //}
             MessageBox.Show("Данные удалены");
         }
 
